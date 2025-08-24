@@ -46,23 +46,23 @@ def seguir_linea():
     
     
 def avance1():
-    right_motor.run_angle(400,1000,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(400,1000,then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(400,1150,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(400,1150,then=Stop.BRAKE, wait=True)
     
 def avance2():
-    right_motor.run_angle(400,1160,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(400,1160,then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(400,1150,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(400,1150,then=Stop.BRAKE, wait=True)
     
     
 def subir_garra():    
     claw.run_angle(200, -160, then=Stop.HOLD, wait=True)
 
 def bajar_garra():
-    claw.run_angle(50, 193, then=Stop.HOLD, wait=True)
+    claw.run_angle(200, 245, then=Stop.HOLD, wait=True)
 
 def rotar_garra():
     global devolver 
-    rotar.run_angle(200, 134, then=Stop.HOLD, wait=True)
+    rotar.run_angle(600, 230, then=Stop.HOLD, wait=True)
     devolver = devolver+1 
     
 def devolver_garra():
@@ -71,21 +71,24 @@ def devolver_garra():
     
 def escotilla_movible():
     avance1()
-    right_motor.run_angle(500, 200, then=Stop.BRAKE, wait=True)
-    left_motor.run_angle(500, , then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(800, 465, then=Stop.BRAKE, wait=True)
+    left_motor.run_angle(800, 430, then=Stop.BRAKE, wait=True)
     avance2()
     
-
+def escotilla_fija():
+    right_motor.run_angle(800, 570, then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(400,100,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(400,100,then=Stop.BRAKE, wait=True)
+    bajar_garra()
+    right_motor.run_angle(400,-170,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(400,-170,then=Stop.BRAKE, wait=True)
     
-def ensayo():
-    right_motor.run_angle(200,90, then=Stop.BRAKE, wait=True)
+    
+    
     
 def artemisa():
     escotilla_movible()
-    
-
-    
-
+    escotilla_fija()
     
 
 while True:
