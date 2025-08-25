@@ -71,14 +71,14 @@ def devolver_garra():
     
 def escotilla_movible():
     avance1()
-    right_motor.run_angle(800, 465, then=Stop.BRAKE, wait=True)
-    left_motor.run_angle(800, 430, then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(800, 480, then=Stop.BRAKE, wait=True)
+    left_motor.run_angle(800, 445, then=Stop.BRAKE, wait=True)
     avance2()
     
 def escotilla_fija():
     right_motor.run_angle(800, 570, then=Stop.BRAKE, wait=True)
-    right_motor.run_angle(400,100,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(400,100,then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(400,135,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(400,135,then=Stop.BRAKE, wait=True)
     bajar_garra()
     right_motor.run_angle(400,-170,then=Stop.BRAKE, wait=False)
     left_motor.run_angle(400,-170,then=Stop.BRAKE, wait=True)
