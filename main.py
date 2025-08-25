@@ -87,20 +87,21 @@ def escotilla_fija():
     
     
 def ida()
-    left_motor.run_angle(400, -ninety(0.5), then=Stop.BRAKE, wait=False)
-    right_motor.run_angle(400, +ninety(0.5), then=Stop.BRAKE, wait=True)
-    
+    left_motor.run_angle(400, -260, then=Stop.BRAKE, wait=False)
+    right_motor.run_angle(400, 260, then=Stop.BRAKE, wait=True)
+    left_motor.run_angle(400, -400, then=Stop.BRAKE, wait=False)
+    right_motor.run_angle(400, -400, then=Stop.BRAKE, wait=True)
     
 
 def artemisa():
     escotilla_movible()
-    
+    ida()
     
     
 
 while True:
     artemisa()
-    ida()
+    
     
     #while True:
      #   right_motor.run_angle(400,-170,then=Stop.BRAKE, wait=False)
