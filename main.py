@@ -34,7 +34,7 @@ line_sensor2 = ColorSensor(Port.S4)
 robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=150)
 
 DRIVE_SPEED = 200
-PROPORTIONAL_GAIN = 1.3
+PROPORTIONAL_GAIN = 0.8
 ninety = 560
 devolver=0
 
@@ -50,15 +50,15 @@ def avance1():
     left_motor.run_angle(400,1150,then=Stop.BRAKE, wait=True)
     
 def avance2():
-    right_motor.run_angle(400,1050,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(400,1050,then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(400,850,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(400,850,then=Stop.BRAKE, wait=True)
     
     
 def subir_garra():    
-    claw.run_angle(200, -160, then=Stop.HOLD, wait=True)
+    claw.run_angle(200, -190, then=Stop.BRAKE, wait=True)
 
 def bajar_garra():
-    claw.run_angle(200, 245, then=Stop.HOLD, wait=True)
+    claw.run_angle(180, 245, then=Stop.BRAKE, wait=True)
 
 def rotar_garra():
     global devolver 
@@ -71,29 +71,49 @@ def devolver_garra():
     
 def escotilla_movible():
     avance1()
-    right_motor.run_angle(800, 490, then=Stop.BRAKE, wait=True)
-    left_motor.run_angle(800, 455, then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(800, 440, then=Stop.BRAKE, wait=True)
+    left_motor.run_angle(800, 440, then=Stop.BRAKE, wait=True)
     avance2()
     
+    #IMPORTANTE EDITAR ESTA FUNCION PARA LUEGO
 def escotilla_fija():
-    right_motor.run_angle(800, 570, then=Stop.BRAKE, wait=True)
-    right_motor.run_angle(400,135,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(400,135,then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(800, 550, then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(400,160,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(400,160,then=Stop.BRAKE, wait=True)
     bajar_garra()
     right_motor.run_angle(400,-170,then=Stop.BRAKE, wait=False)
     left_motor.run_angle(400,-170,then=Stop.BRAKE, wait=True)
+    subir_garra()
     
     
+def ida()
+    left_motor.run_angle(400, -ninety(0.5), then=Stop.BRAKE, wait=False)
+    right_motor.run_angle(400, +ninety(0.5), then=Stop.BRAKE, wait=True)
     
     
+
 def artemisa():
     escotilla_movible()
-    escotilla_fija()
+    
+    
     
 
 while True:
     artemisa()
-    break 
+    ida()
+    
+    #while True:
+     #   right_motor.run_angle(400,-170,then=Stop.BRAKE, wait=False)
+      #  left_motor.run_angle(400,-170,then=Stop.BRAKE, wait=True)
+       # if line_sensor.reflection() > 20 and line_sensor2.reflection() > 20:
+            
+            
+         #   else:
+        #    left_motor.run_angle(400,ninety,then=Stop.BRAKE, wait=False)
+            
+            
+          #  break
+    #break 
     
     
     
