@@ -34,7 +34,7 @@ line_sensor2 = ColorSensor(Port.S4)
 robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=150)
 
 DRIVE_SPEED = 200
-PROPORTIONAL_GAIN = 1.3
+PROPORTIONAL_GAIN = 3.4
 ninety = 560
 devolver=0
 
