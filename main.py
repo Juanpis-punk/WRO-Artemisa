@@ -7,116 +7,85 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-
-
-# This program requires LEGO EV3 MicroPython v2.0 or higher.
-# Click "Open user guide" on the EV3 extension tab for more information.
-
-
-# Create your objects here.
+#Objetos
 ev3 = EV3Brick()
 
 
-# Write your program here.
-
-
-    
-# Initialize the motors.
+#Motores 
 right_motor = Motor(Port.B)
 left_motor = Motor(Port.C)
 claw = Motor(Port.A)
 rotar = Motor (Port.D)
-# Initialize the color sensor.
+
+#Sensores
 line_sensor = ColorSensor(Port.S1)
 line_sensor2 = ColorSensor(Port.S4)
+colorsensor_left = ColorSensor(Port.S3)
+colorsensor_right = ColorSensor(Port.S2)
 
-# Initialize the drive base.
-robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=150)
-
-DRIVE_SPEED = 200
-PROPORTIONAL_GAIN = 0.8
-ninety = 560
-devolver=0
-
-def seguir_linea():
-    deviation = line_sensor.reflection() - line_sensor2.reflection()
-    turn_rate = PROPORTIONAL_GAIN * deviation
-    # Set the drive base speed and turn rate.
-    robot.drive(DRIVE_SPEED, turn_rate)
-    
-    
+ #Funciones de avance
 def avance1():
-    right_motor.run_angle(400,1150,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(400,1150,then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(400,950,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(400, 950, then=Stop.BRAKE, wait=True)
     
 def avance2():
-    right_motor.run_angle(400,850,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(400,850,then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(500,800,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(500,800,then=Stop.BRAKE, wait=True)
     
+    
+#Funciones de garra
+
+def rotar_garra():
+    rotar.run_angle(600, -150, then=Stop.HOLD, wait=True)
     
 def subir_garra():    
     claw.run_angle(200, -190, then=Stop.BRAKE, wait=True)
 
 def bajar_garra():
-    claw.run_angle(180, 245, then=Stop.BRAKE, wait=True)
+    claw.run_angle(600, 240, then=Stop.HOLD, wait=True)
+    
+    
+#Funciones principales
 
-def rotar_garra():
-    global devolver 
-    rotar.run_angle(600, 230, then=Stop.HOLD, wait=True)
-    devolver = devolver+1 
-    
-def devolver_garra():
-    # rotar.run_angle(200, -(134*devolver), then=Stop.HOLD, wait=True)
-    rotar.reset_angle(0)
-    
-def escotilla_movible():
-    avance1()
-    right_motor.run_angle(800, 440, then=Stop.BRAKE, wait=True)
-    left_motor.run_angle(800, 440, then=Stop.BRAKE, wait=True)
-    avance2()
-    
-    #IMPORTANTE EDITAR ESTA FUNCION PARA LUEGO
-def escotilla_fija():
-    right_motor.run_angle(800, 550, then=Stop.BRAKE, wait=True)
-    right_motor.run_angle(400,160,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(400,160,then=Stop.BRAKE, wait=True)
-    bajar_garra()
-    right_motor.run_angle(400,-170,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(400,-170,then=Stop.BRAKE, wait=True)
-    subir_garra()
+def giro_carga():
+    left_motor.run_angle(600, -267, then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(600, 300, then=Stop.BRAKE, wait=False)
     
     
-def ida()
-    left_motor.run_angle(400, -260, then=Stop.BRAKE, wait=False)
-    right_motor.run_angle(400, 260, then=Stop.BRAKE, wait=True)
-    left_motor.run_angle(400, -400, then=Stop.BRAKE, wait=False)
-    right_motor.run_angle(400, -400, then=Stop.BRAKE, wait=True)
-    
+   
 
-def artemisa():
-    escotilla_movible()
-    ida()
     
     
+    
+    
+#Ejecucion
+giro_carga()
+bajar_garra()
+rotar_garra()
+while line_sensor.reflection() < 50 and line_sensor2.reflection() < 50:
+    right_motor.run_angle(400, -260, then=Stop.BRAKE, wait=False)
+    left_motor.run(400)
+    right_motor.run(400)
+    break
 
-while True:
-    artemisa()
-    
-    
-    #while True:
-     #   right_motor.run_angle(400,-170,then=Stop.BRAKE, wait=False)
-      #  left_motor.run_angle(400,-170,then=Stop.BRAKE, wait=True)
-       # if line_sensor.reflection() > 20 and line_sensor2.reflection() > 20:
-            
-            
-         #   else:
-        #    left_motor.run_angle(400,ninety,then=Stop.BRAKE, wait=False)
-            
-            
-          #  break
-    #break 
+
     
     
     
 
+
     
+
+        
+    
+        
+
+
+
+     
+   
+    
+    
+    
+    
+ 
