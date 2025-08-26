@@ -33,9 +33,12 @@ def avance2():
     left_motor.run_angle(500,800,then=Stop.BRAKE, wait=True)
     
 def avance3():
-    right_motor.run_angle(500,600,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(500,600,then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(500,800,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(500,800,then=Stop.BRAKE, wait=True)
     
+def avance4():
+    right_motor.run_angle(500,1100,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(500,1100,then=Stop.BRAKE, wait=True)
     
 #Funciones de garra
 
@@ -55,6 +58,9 @@ def giro_carga():
     left_motor.run_angle(600, -267, then=Stop.BRAKE, wait=True)
     right_motor.run_angle(600, 300, then=Stop.BRAKE, wait=False)
     
+def giro_carga2():
+    left_motor.run_angle(600, 267, then=Stop.BRAKE, wait=False)
+    right_motor.run_angle(600, -320, then=Stop.BRAKE, wait=True)
     
    
 #Ejecucion
@@ -66,8 +72,10 @@ bajar_garra()
    # right_motor.run(400)
     #break
 avance3()
-left_motor.run_angle(600, 267, then=Stop.BRAKE, wait=False)
-right_motor.run_angle(600, -310, then=Stop.BRAKE, wait=True)
+giro_carga2()
+avance4()
+subir_garra()
+
 
 
     
