@@ -25,12 +25,16 @@ colorsensor_right = ColorSensor(Port.S2)
 
  #Funciones de avance
 def avance1():
-    right_motor.run_angle(400,950,then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(400, 950, then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(500,950,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(500, 950, then=Stop.BRAKE, wait=True)
     
 def avance2():
     right_motor.run_angle(500,800,then=Stop.BRAKE, wait=False)
     left_motor.run_angle(500,800,then=Stop.BRAKE, wait=True)
+    
+def avance3():
+    right_motor.run_angle(500,600,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(500,600,then=Stop.BRAKE, wait=True)
     
     
 #Funciones de garra
@@ -53,20 +57,17 @@ def giro_carga():
     
     
    
-
-    
-    
-    
-    
 #Ejecucion
 giro_carga()
 bajar_garra()
-rotar_garra()
-while line_sensor.reflection() < 50 and line_sensor2.reflection() < 50:
-    right_motor.run_angle(400, -260, then=Stop.BRAKE, wait=False)
-    left_motor.run(400)
-    right_motor.run(400)
-    break
+#while line_sensor.reflection() < 50 and line_sensor2.reflection() < 50:
+ #   right_motor.run_angle(400, -260, then=Stop.BRAKE, wait=False)
+  #  left_motor.run(400)
+   # right_motor.run(400)
+    #break
+avance3()
+left_motor.run_angle(600, 267, then=Stop.BRAKE, wait=False)
+right_motor.run_angle(600, -310, then=Stop.BRAKE, wait=True)
 
 
     

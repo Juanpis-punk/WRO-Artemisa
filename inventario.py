@@ -6,6 +6,24 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
+ #AVANCES
+def avance1():
+    right_motor.run_angle(500,950,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(500, 950, then=Stop.BRAKE, wait=True)
+    
+def avance2():
+    right_motor.run_angle(500,800,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(500,800,then=Stop.BRAKE, wait=True)
+    
+def avance3():
+    right_motor.run_angle(500,600,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(500,600,then=Stop.BRAKE, wait=True)
+    
+#####################################################################################################################
+#####################################################################################################################
+#####################################################################################################################
+#####################################################################################################################
+
 #SEGUIMIENTO DE LINEA#
 DRIVE_SPEED = 200
 PROPORTIONAL_GAIN = 0.8
@@ -94,3 +112,27 @@ def escotilla_movible():
                     
 escotilla_movible()
 
+#####################################################################################################################
+#####################################################################################################################
+#####################################################################################################################
+#####################################################################################################################
+
+#GIROCARGA#
+
+def giro_carga():
+    left_motor.run_angle(600, -267, then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(600, 300, then=Stop.BRAKE, wait=False)
+    
+    
+   
+#Ejecucion
+giro_carga()
+bajar_garra()
+#while line_sensor.reflection() < 50 and line_sensor2.reflection() < 50:
+ #   right_motor.run_angle(400, -260, then=Stop.BRAKE, wait=False)
+  #  left_motor.run(400)
+   # right_motor.run(400)
+    #break
+avance3()
+left_motor.run_angle(600, 267, then=Stop.BRAKE, wait=False)
+right_motor.run_angle(600, -310, then=Stop.BRAKE, wait=True)
