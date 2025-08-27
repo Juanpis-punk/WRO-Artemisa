@@ -123,9 +123,7 @@ def giro_carga():
     left_motor.run_angle(600, -267, then=Stop.BRAKE, wait=True)
     right_motor.run_angle(600, 300, then=Stop.BRAKE, wait=False)
     
-    
-   
-#Ejecucion
+    #Ejecucion de la GiroCarga
 giro_carga()
 bajar_garra()
 #while line_sensor.reflection() < 50 and line_sensor2.reflection() < 50:
@@ -136,3 +134,22 @@ bajar_garra()
 avance3()
 left_motor.run_angle(600, 267, then=Stop.BRAKE, wait=False)
 right_motor.run_angle(600, -310, then=Stop.BRAKE, wait=True)
+
+#####################################################################################################################
+#####################################################################################################################
+#####################################################################################################################
+#####################################################################################################################
+
+#Seguimiento de Líneas de los chavales
+def seguir_linea():
+    deviation = line_sensor.reflection() - line_sensor2.reflection()
+    turn_rate = PROPORTIONAL_GAIN * deviation
+    right_motor.run_angle(DRIVE_SPEED, turn_rate wait=False)
+    left_motor.run_angle(DRIVE_SPEED, turn_rate wait=True)
+    cont=+1
+    return cont
+    
+    
+if(seguir_linea()>=2S):
+    right_motor.break()
+    left_motor.break()
