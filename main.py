@@ -10,7 +10,9 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
                                                            
 #Objetos
 ev3 = EV3Brick()
+ev3.speaker.set_volume(100)
 
+                                                                                                            
 """
 ███    ███  ██████  ████████  ██████  ██████  ███████ ███████ 
 ████  ████ ██    ██    ██    ██    ██ ██   ██ ██      ██      
@@ -55,7 +57,7 @@ def seguir_linea(DISTANCIA):
     robot.reset()
     
     while robot.distance() < DISTANCIA:
-        deviation = line_sensor.reflection() - line_sensor2.reflection()
+        deviation = line_sensor2.reflection() - line_sensor.reflection()
         turn_rate = PROPORTIONAL_GAIN * deviation
         robot.drive(DRIVE_SPEED, turn_rate)
         
@@ -88,8 +90,27 @@ def subir_garra():
     claw.run_angle(600, -1000, then=Stop.BRAKE, wait=True)
 
 def bajar_garra():
-    claw.run_angle(600, 1250, then=Stop.HOLD, wait=True)
     
+    
+    """
+██████   █████  ██ ██      ███████     ██████  ███████     ██       █████      ██    ██ ██  ██████ ████████  ██████  ██████  ██  █████  
+██   ██ ██   ██ ██ ██      ██          ██   ██ ██          ██      ██   ██     ██    ██ ██ ██         ██    ██    ██ ██   ██ ██ ██   ██ 
+██████  ███████ ██ ██      █████       ██   ██ █████       ██      ███████     ██    ██ ██ ██         ██    ██    ██ ██████  ██ ███████ 
+██   ██ ██   ██ ██ ██      ██          ██   ██ ██          ██      ██   ██      ██  ██  ██ ██         ██    ██    ██ ██   ██ ██ ██   ██ 
+██████  ██   ██ ██ ███████ ███████     ██████  ███████     ███████ ██   ██       ████   ██  ██████    ██     ██████  ██   ██ ██ ██   ██ 
+                                                                                                                                        
+   """"""
+def baile_de_la_victoria()
+    avance (800, 100)  
+    avance (800, -100)
+    avance (800, 100)
+    avance (800, -100)
+    avance (800, 100)
+    avance (800, -100)
+    avance (800, 100)
+    avance (800, -100)
+    avance (800, 100)                     
+    """
 
 """
 ██          ██████  ██████  ██       ██████  ██████  ███████ ███████ 
@@ -100,32 +121,94 @@ def bajar_garra():
                                                                      
                                                                      """
 #Colores
+colorx = None
 color1 = None
-color2 = None
-color3 = None 
+color2 = None 
+color3 = None
 color4 = None
 valid_colors = [ Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW]
 
-
-def Colorcapture():
-    avance(800, 1000)
-    right_motor.run_angle(800, -160, then=Stop.BRAKE, wait=True)
-    left_motor.run_angle(800, 160, then=Stop.BRAKE, wait=True)
-    avance(800, -800)
-    wait(500)
-    
-    detected_color = colorsensor_right.color()
-    
-    if detected_color in valid_colors:
-        color1 = detected_color
-        if color1 != None:
-            avance1()
-            right_motor.run_angle(800, 465, then=Stop.BRAKE, wait=True)
-            left_motor.run_angle(800, 465, then=Stop.BRAKE, wait=True)
-            avance2()
+def ir_colorx():
+    if colorsensor_right.color() in valid_colors:
+        colorx = colorsensor_right.color()
+        
+        if colorx == Color.RED: 
+            ev3.speaker.say("Red")
+        if colorx == Color.BLUE: 
+            ev3.speaker.say("Blue")
+        if colorx == Color.GREEN: 
+            ev3.speaker.say("Green")
+        if colorx == Color.YELLOW: 
+            ev3.speaker.say("Yellow")
         
     else:
-        claw.run_angle(180, 245, then=Stop.BRAKE, wait=True)
+        rotar_garra()
+        
+def ir_color1():
+    if colorsensor_right.color() in valid_colors:
+        color1 = colorsensor_right.color()
+        
+        if color1 == Color.RED: 
+            ev3.speaker.say("Red")
+        if color1 == Color.BLUE: 
+            ev3.speaker.say("Blue")
+        if color1 == Color.GREEN: 
+            ev3.speaker.say("Green")
+        if color1 == Color.YELLOW: 
+            ev3.speaker.say("Yellow") 
+    else:
+        rotar_garra()
+    
+def ir_color2():
+    if colorsensor_right.color() in valid_colors and colorsensor_right.color() != color1:
+        color2 = colorsensor_right.color()
+        
+        if color2 == Color.RED: 
+            ev3.speaker.say("Red")
+        if color2 == Color.BLUE: 
+            ev3.speaker.say("Blue")
+        if color2 == Color.GREEN: 
+            ev3.speaker.say("Green")
+        if color2 == Color.YELLOW: 
+            ev3.speaker.say("Yellow")
+    else:
+        rotar_garra()
+        
+        
+def ir_color3():
+    if colorsensor_right.color() in valid_colors and colorsensor_right.color() != (color1, color2):
+        color3 = colorsensor_right.color()
+        
+        if color3 == Color.RED: 
+            ev3.speaker.say("Red")
+        if color3 == Color.BLUE: 
+            ev3.speaker.say("Blue")
+        if color3 == Color.GREEN: 
+            ev3.speaker.say("Green")
+        if color3 == Color.YELLOW: 
+            ev3.speaker.say("Yellow")
+    else:
+        rotar_garra()
+        
+   
+def ir_color4():
+    if colorsensor_right.color() in valid_colors and colorsensor_right.color() != (color1, color2, color3):
+        color4= colorsensor_right.color()
+        
+        if color4 == Color.RED: 
+            ev3.speaker.say("Red")
+        if color4 ==Color.BLUE: 
+            ev3.speaker.say("Blue")
+        if color4 == Color.GREEN:
+            ev3.speaker.say("Green")
+        if color4 == Color.YELLOW:
+            ev3.speaker.say("Yellow")
+    else:
+        rotar_garra()
+    
+
+
+
         
     
 
@@ -137,8 +220,32 @@ def Colorcapture():
 ███████  █████  ███████  ██████  ██████   ██████ ██  ██████  ██   ████ 
                                                                        
                                                                        """
-             
-seguir_linea(1000)                                                         
+
+seguir_linea(930)
+right_motor.run_angle(800, -320, then=Stop.BRAKE, wait=False)
+left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)
+wait(1000)
+avance(800, -590)
+
+ir_colorx()
+
+right_motor.run_angle(800, -295, then=Stop.BRAKE, wait=True)
+left_motor.run_angle(800, -295, then=Stop.BRAKE, wait=True)
+avance(800, -410)
+
+ir_color1()
+
+avance(800, -146)
+
+ir_color2()
+
+
+
+
+
+
+
+                                                         
 
 
     
