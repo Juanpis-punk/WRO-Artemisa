@@ -51,7 +51,7 @@ DRIVE_SPEED = 300
 PROPORTIONAL_GAIN = 0.5
 DISTANCIA = None
 
-robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=150)
+robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=210)
 
 def seguir_linea(DISTANCIA):
     robot.reset()
@@ -90,7 +90,7 @@ def subir_garra():
     claw.run_angle(600, -1000, then=Stop.BRAKE, wait=True)
 
 def bajar_garra():
-    
+    claw.run_angle(600, 1000, then=Stop.BRAKE, wait=True)
     
     """
 ██████   █████  ██ ██      ███████     ██████  ███████     ██       █████      ██    ██ ██  ██████ ████████  ██████  ██████  ██  █████  
@@ -230,34 +230,33 @@ def ir_color4():
                                                                        """
 
 
-seguir_linea(930)
+seguir_linea(865)
+wait(200)
 right_motor.run_angle(800, -320, then=Stop.BRAKE, wait=False)
 left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)
 wait(1000)
-avance(800, -560)
+avance(800, -566)
 
 ir_colorx()
 
-right_motor.run_angle(800, -300, then=Stop.BRAKE, wait=True)
-left_motor.run_angle(800, -300, then=Stop.BRAKE, wait=True)
+right_motor.run_angle(800, -315, then=Stop.BRAKE, wait=True)
+left_motor.run_angle(800, -315, then=Stop.BRAKE, wait=True)
 avance(800, -400)
 
 ir_color1()
 
-avance(800, -140)
+avance(800, -160)
 
 ir_color2()
 
-avance(800, 400)
-right_motor.run_angle(800, -330, then=Stop.BRAKE, wait=True)
-avance(800, -154.5)
-left_motor.run_angle(800, -330, then=Stop.BRAKE, wait=True)
-
+avance(800, 480)
+left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)
+avance(800, -390)
+left_motor.run_angle(800, -260, then=Stop.BRAKE, wait=True)
+avance(800, -20)
 
 ir_color3()
 
-avance(800, 140)
+avance(800, -165)
 
 ir_color4()
-
-bajar_garra()
