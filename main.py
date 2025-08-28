@@ -83,34 +83,39 @@ def avance(velocidad, grados):
  ██████  ██   ██ ██   ██ ██   ██ ██   ██ 
                                          
                                          """
-def rotar_garra():
-    rotar.run_angle(600, -150, then=Stop.HOLD, wait=True)
+def rotar_garra(TIMES):
+    rotar.run_angle(600, TIMES*(-150), then=Stop.HOLD, wait=True)
     
-def subir_garra():    
-    claw.run_angle(600, -1000, then=Stop.BRAKE, wait=True)
+def subir_garra(GRADO):    
+    claw.run_angle(600, GRADO, then=Stop.BRAKE, wait=True)
 
-def bajar_garra():
-    claw.run_angle(600, 1000, then=Stop.BRAKE, wait=True)
+def bajar_garra(GRADO):
+    claw.run_angle(600, GRADO, then=Stop.BRAKE, wait=True)
     
-    """
-██████   █████  ██ ██      ███████     ██████  ███████     ██       █████      ██    ██ ██  ██████ ████████  ██████  ██████  ██  █████  
-██   ██ ██   ██ ██ ██      ██          ██   ██ ██          ██      ██   ██     ██    ██ ██ ██         ██    ██    ██ ██   ██ ██ ██   ██ 
-██████  ███████ ██ ██      █████       ██   ██ █████       ██      ███████     ██    ██ ██ ██         ██    ██    ██ ██████  ██ ███████ 
-██   ██ ██   ██ ██ ██      ██          ██   ██ ██          ██      ██   ██      ██  ██  ██ ██         ██    ██    ██ ██   ██ ██ ██   ██ 
-██████  ██   ██ ██ ███████ ███████     ██████  ███████     ███████ ██   ██       ████   ██  ██████    ██     ██████  ██   ██ ██ ██   ██ 
-                                                                                                                                        
-   """"""
-def baile_de_la_victoria()
-    avance (800, 100)  
-    avance (800, -100)
-    avance (800, 100)
-    avance (800, -100)
-    avance (800, 100)
-    avance (800, -100)
-    avance (800, 100)
-    avance (800, -100)
-    avance (800, 100)                     
-    """
+"""
+███████ ███████  ██████    ███████ ██      ██  █████  
+██      ██      ██         ██      ██      ██ ██   ██ 
+█████   ███████ ██         █████   ██      ██ ███████ 
+██           ██ ██         ██      ██ ██   ██ ██   ██ 
+███████ ███████  ██████ ██ ██      ██  █████  ██   ██ 
+                                                      
+"""
+    
+def escotilla_fija():
+    avance(800, 850)
+    right_motor.run_angle(800,320,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(800,-260,then=Stop.BRAKE, wait=True)
+    avance(800, 350)
+    right_motor.run_angle(800,320,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(800,-260,then=Stop.BRAKE, wait=True)
+    bajar_garra(1200)
+    avance(800, -280)
+    subir_garra(-1200)
+    avance(800, -400)
+    right_motor.run_angle(800,320,then=Stop.BRAKE, wait=False)
+    left_motor.run_angle(800,-260,then=Stop.BRAKE, wait=True)
+    seguir_linea(1300)
+    robot.stop()
 
 """
 ██          ██████  ██████  ██       ██████  ██████  ███████ ███████ 
@@ -143,7 +148,7 @@ def ir_colorx():
             ev3.speaker.say("Yellow")
         
     else:
-        rotar_garra()
+        rotar_garra(1)
         
 def ir_color1():
     if colorsensor_right.color() in valid_colors:
@@ -159,7 +164,7 @@ def ir_color1():
         if color1 == Color.YELLOW: 
             ev3.speaker.say("Yellow") 
     else:
-        rotar_garra()
+        rotar_garra(1)
     
 def ir_color2():
     if colorsensor_right.color() in valid_colors and colorsensor_right.color() != color1:
@@ -175,11 +180,11 @@ def ir_color2():
         if color2 == Color.YELLOW: 
             ev3.speaker.say("Yellow")
     else:
-        rotar_garra()
+        rotar_garra(1)
         
         
 def ir_color3():
-    if colorsensor_left.color() in valid_colors and colorsensor_right.color() != (color1, color2):
+    if colorsensor_left.color() in valid_colors and colorsensor_left.color() != (color1, color2):
         wait(500)
         color3 = colorsensor_left.color()
         
@@ -192,10 +197,10 @@ def ir_color3():
         if color3 == Color.YELLOW: 
             ev3.speaker.say("Yellow")
     else:
-        rotar_garra()
+        rotar_garra(1)
         
 def ir_color4():
-    if colorsensor_left.color() in valid_colors and colorsensor_right.color() != (color1, color2, color3):
+    if colorsensor_left.color() in valid_colors and colorsensor_left.color() != (color1, color2, color3):
         wait(500)
         color4 = colorsensor_left.color()
         
@@ -208,16 +213,32 @@ def ir_color4():
         if color4 == Color.YELLOW: 
             ev3.speaker.say("Yellow")
     else:
-        rotar_garra()
+        rotar_garra(1)
+        
+        
+        
+"""
+
+██████   ██████  ████████  ██████  ██████      ██████  ███████      ██████  ██████  ██       ██████  ██████  ███████ ███████ 
+██   ██ ██    ██    ██    ██    ██ ██   ██     ██   ██ ██          ██      ██    ██ ██      ██    ██ ██   ██ ██      ██      
+██████  ██    ██    ██    ██    ██ ██████      ██   ██ █████       ██      ██    ██ ██      ██    ██ ██████  █████   ███████ 
+██   ██ ██    ██    ██    ██    ██ ██   ██     ██   ██ ██          ██      ██    ██ ██      ██    ██ ██   ██ ██           ██ 
+██   ██  ██████     ██     ██████  ██   ██     ██████  ███████      ██████  ██████  ███████  ██████  ██   ██ ███████ ███████ 
+                                                                                                                             
+                                                                                                                             
+"""
+def color_rotor():
+    if colorx == Color.BLUE:
+        rotar_garra(0)
+    if colorx == Color.RED:
+        rotar_garra(1)
+    if colorx == Color.YELLOW:
+        rotar_garra(2)
+    if colorx == Color.GREEN:
+        rotar_garra(-1)
         
    
-
-    
-    
-
-
-
-        
+   
     
 
     """
@@ -230,7 +251,7 @@ def ir_color4():
                                                                        """
 
 
-seguir_linea(865)
+seguir_linea(873)
 wait(200)
 right_motor.run_angle(800, -320, then=Stop.BRAKE, wait=False)
 left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)
@@ -239,24 +260,47 @@ avance(800, -566)
 
 ir_colorx()
 
-right_motor.run_angle(800, -315, then=Stop.BRAKE, wait=True)
-left_motor.run_angle(800, -315, then=Stop.BRAKE, wait=True)
-avance(800, -400)
+avance(800, -25)
+right_motor.run_angle(800, -300, then=Stop.BRAKE, wait=True)
+left_motor.run_angle(800, -300, then=Stop.BRAKE, wait=True)
+avance(800, -416)
 
 ir_color1()
 
-avance(800, -160)
+avance(800, -150)
 
 ir_color2()
 
-avance(800, 480)
-left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)
-avance(800, -390)
-left_motor.run_angle(800, -260, then=Stop.BRAKE, wait=True)
-avance(800, -20)
+avance(800, 483)
+left_motor.run_angle(800, 272, then=Stop.BRAKE, wait=True)
+avance(800, -405)
+left_motor.run_angle(800, -272, then=Stop.BRAKE, wait=True)
+#avance(800, -20)
 
 ir_color3()
 
-avance(800, -165)
+avance(800, -175)
 
 ir_color4()
+
+escotilla_fija()
+
+right_motor.run_angle(800, -390, then=Stop.BRAKE, wait=False)
+left_motor.run_angle(800, 456, then=Stop.BRAKE, wait=True)
+avance(800, 400)
+
+bajar_garra(1250)
+"""
+avance(800, 500)
+
+right_motor.run_angle(800, -390, then=Stop.BRAKE, wait=False)
+left_motor.run_angle(800, 465, then=Stop.BRAKE, wait=True)
+
+avance(800, 600)
+
+color_rotor()
+
+subir_garra(1250)
+    """
+
+
