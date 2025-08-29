@@ -63,6 +63,7 @@ def seguir_linea(DISTANCIA):
         robot.drive(DRIVE_SPEED, turn_rate)
 
     robot.stop()
+    wait(500)
 
 
 def seguir_linea2():
@@ -80,7 +81,7 @@ def seguir_linea2():
 def seguir_linea3():
     robot.reset()
 
-    while not 10 < line_sensor2.reflection() and line_sensor.reflection() < 20:
+    while 10 < line_sensor2.reflection() < 20 and 10 < line_sensor.reflection() < 20:
         deviation = line_sensor2.reflection() - line_sensor.reflection()
         turn_rate = PROPORTIONAL_GAIN * deviation
         robot.drive(DRIVE_SPEED, turn_rate)
@@ -149,13 +150,12 @@ def escotilla_fija():
     bajar_garra(1200)
     avance(800, -280)  # SACAR ESCOTILLA
     subir_garra(-1200)
-    avance(800, -380)  # RETROCEDER HACIA LA LINEA
+    avance(800, -300)  # RETROCEDER HACIA LA LINEA
     # GIRO PARA QUEDAR EN LA DIRECCION DE LA LÍNEA
-    left_motor.run_angle(800, -600, then=Stop.BRAKE, wait=True)
-    seguir_linea2()
+    left_motor.run_angle(800, -570, then=Stop.BRAKE, wait=True)
+    seguir_linea2()#SEGUIR LINEA HASTA LA QUE VA ADYACENTE
     wait(500)
-    seguir_linea(700)
-    robot.stop()
+    seguir_linea(1080)
 
 
 
@@ -233,7 +233,7 @@ def ir_color2():
 
 def ir_color3():
     global color3
-    if colorsensor_left.color() in valid_colors and colorsensor_left.color() != (color1, color2):
+    if colorsensor_left.color() in valid_colors and colorsensor_left.color() not in [color1, color2]:
         wait(500)
         color3 = colorsensor_left.color()
 
@@ -251,7 +251,7 @@ def ir_color3():
 
 def ir_color4():
     global color4
-    if colorsensor_left.color() in valid_colors and colorsensor_left.color() != (color1, color2, color3):
+    if colorsensor_left.color() in valid_colors and colorsensor_left.color() not in [color1, color2, color3]:
         wait(500)
         color4 = colorsensor_left.color()
 
@@ -346,8 +346,8 @@ avance(800, -670)  # AVANCE HACIA COLORX
 ir_colorx()  # LEER COLORX (MUESTRAS PARA LA CARGA ÚTIL)
 
 avance(800, -25)  # AVANCE PARA EVITAR CHOQUE CON LA ESCOTILLA AMARILLA
-right_motor.run_angle(800, -300, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLOR1
-left_motor.run_angle(800, -300, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLOR1
+right_motor.run_angle(800, -310, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLOR1
+left_motor.run_angle(800, -310, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLOR1
 avance(800, -409)  # AVANCE HACIA COLOR1
 
 ir_color1()  # LEER COLOR1
@@ -359,13 +359,13 @@ ir_color2()  # LEER COLOR2
 avance(800, 483)  # AVANCE HACIA ADELANTE ANTES DE LA DIAGONAL
 
 left_motor.run_angle(800, 277, then=Stop.BRAKE, wait=True)# PRIMER ANGULO PARA LA DIAGONAL
-avance(800, -445)  # DIAGONAL
+avance(800, -457)  # DIAGONAL
 left_motor.run_angle(800, -277, then=Stop.BRAKE, wait=True)# ACOMODAMIENTO LUEGO DE LA DIAGONAL
 # avance(800, -40)
 
 ir_color3()  # LEER COLOR3
 
-avance(800, -175)  # DEZPLAZAMIENTO CORTO PARA IR A COLOR4
+avance(800, -150)  # DEZPLAZAMIENTO CORTO PARA IR A COLOR4
 
 ir_color4()  # LEER COLOR4
 
@@ -378,11 +378,10 @@ avance(800, -150)
 bajar_garra(1250)
 avance(800, 800)
 right_motor.run_angle(800, -260, then=Stop.BRAKE, wait=False)
-left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)
+left_motor.run_angle(800, 245, then=Stop.BRAKE, wait=True)
 avance(800, 1250)
 
 color_rotor()
 subir_garra(-1250)
 
 #banderas()
-
