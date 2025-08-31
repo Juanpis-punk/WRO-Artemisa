@@ -51,7 +51,7 @@ DRIVE_SPEED = 300
 PROPORTIONAL_GAIN = 0.6
 DISTANCIA = None
 
-robot = DriveBase(left_motor, right_motor, wheel_diameter=55.5, axle_track=210)
+robot = DriveBase(left_motor, right_motor, wheel_diameter=55, axle_track=185)
 
 
 def seguir_linea(DISTANCIA):
@@ -74,20 +74,22 @@ def seguir_linea2():
         turn_rate = PROPORTIONAL_GAIN * deviation
         robot.drive(DRIVE_SPEED, turn_rate)
 
-    robot.stop()
+    robot.stop(Stop.HOLD)
     wait(200)
 
 
 def seguir_linea3():
     robot.reset()
 
-    while 10 < line_sensor2.reflection() < 20 and 10 < line_sensor.reflection() < 20:
+    while not line_sensor.reflection() > 80 and line_sensor2.reflection() > 80:
         deviation = line_sensor2.reflection() - line_sensor.reflection()
         turn_rate = PROPORTIONAL_GAIN * deviation
         robot.drive(DRIVE_SPEED, turn_rate)
         
-    robot.stop()
+    robot.stop(Stop.HOLD)
     wait(200)
+    
+
 
 
 """ 
@@ -101,8 +103,8 @@ def seguir_linea3():
 
 
 def avance(velocidad, grados):
-    right_motor.run_angle(velocidad, grados, then=Stop.BRAKE, wait=False)
-    left_motor.run_angle(velocidad, grados, then=Stop.BRAKE, wait=True)
+    right_motor.run_angle(velocidad, grados, then=Stop.HOLD, wait=False)
+    left_motor.run_angle(velocidad, grados, then=Stop.HOLD, wait=True)
 
     """ 
  ██████   █████  ██████  ██████   █████  
@@ -115,15 +117,15 @@ def avance(velocidad, grados):
 
 
 def rotar_garra(TIMES):
-    rotar.run_angle(600, TIMES*-150, then=Stop.HOLD, wait=True)
+    rotar.run_angle(600, TIMES*-180, then=Stop.HOLD, wait=True)
 
 
 def subir_garra(GRADO):
-    claw.run_angle(600, GRADO, then=Stop.BRAKE, wait=True)
+    claw.run_angle(700, GRADO, then=Stop.BRAKE, wait=True)
 
 
 def bajar_garra(GRADO):
-    claw.run_angle(600, GRADO, then=Stop.BRAKE, wait=True)
+    claw.run_angle(700, GRADO, then=Stop.BRAKE, wait=True)
 
 
 """
@@ -137,7 +139,7 @@ def bajar_garra(GRADO):
 
 
 def escotilla_fija():
-    avance(800, 850)  # AVANZA HACIA AADELANTE LUEGO DE LEER COLOR4
+    avance(800, 870)  # AVANZA HACIA AADELANTE LUEGO DE LEER COLOR4
     # GIRO 90 GRADOS PARA QUEDAR ADYACENTE A LA ESCOTILLA
     right_motor.run_angle(800, 320, then=Stop.BRAKE, wait=False)
     # GIRO 90 GRADOS PARA QUEDAR ADYACENTE A LA ESCOTILLA
@@ -147,15 +149,10 @@ def escotilla_fija():
     right_motor.run_angle(800, 320, then=Stop.BRAKE, wait=False)
     # GIRO PAR AQUDAR DE FRENTE A LA ESCOTILLA
     left_motor.run_angle(800, -260, then=Stop.BRAKE, wait=True)
-    bajar_garra(1200)
+    bajar_garra(1300)
     avance(800, -280)  # SACAR ESCOTILLA
-    subir_garra(-1200)
-    avance(800, -300)  # RETROCEDER HACIA LA LINEA
-    # GIRO PARA QUEDAR EN LA DIRECCION DE LA LÍNEA
-    left_motor.run_angle(800, -570, then=Stop.BRAKE, wait=True)
-    seguir_linea2()#SEGUIR LINEA HASTA LA QUE VA ADYACENTE
-    wait(500)
-    seguir_linea(1080)
+    subir_garra(-1100)
+    
 
 
 
@@ -168,6 +165,7 @@ def escotilla_fija():
                                                                      
                                                                      """
 # Colores
+
 colorx = None
 color1 = None
 color2 = None
@@ -283,11 +281,11 @@ def color_rotor():
     if colorx == Color.BLUE:
         rotar_garra(0)
     elif colorx == Color.RED:
-        rotar_garra(1)
+        rotar_garra(-1)
     elif colorx == Color.YELLOW:
         rotar_garra(2)
     elif colorx == Color.GREEN:
-        rotar_garra(-1)
+        rotar_garra(1)
 
     """
     
@@ -332,23 +330,23 @@ def banderas():
                                                                        
                                                                        """
 
-
 seguir_linea(600)
 seguir_linea2()
-avance(800, -260)
+wait(100)
+robot.stop()
+avance(800, -148)
 wait(200)
-right_motor.run_angle(800, -320, then=Stop.BRAKE,
-                      wait=False)  # GIRO HACIA COLORX
+right_motor.run_angle(800, -320, then=Stop.BRAKE,wait=False)  # GIRO HACIA COLORX
 left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLORX
-wait(1000)
-avance(800, -670)  # AVANCE HACIA COLORX
+wait(500)
+avance(800, -667)  # REVERSA HACIA COLORX
 
 ir_colorx()  # LEER COLORX (MUESTRAS PARA LA CARGA ÚTIL)
 
 avance(800, -25)  # AVANCE PARA EVITAR CHOQUE CON LA ESCOTILLA AMARILLA
-right_motor.run_angle(800, -310, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLOR1
-left_motor.run_angle(800, -310, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLOR1
-avance(800, -409)  # AVANCE HACIA COLOR1
+right_motor.run_angle(800, -282, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLOR1
+left_motor.run_angle(800, -282, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLOR1
+avance(800, -400)  # AVANCE HACIA COLOR1
 
 ir_color1()  # LEER COLOR1
 
@@ -359,29 +357,62 @@ ir_color2()  # LEER COLOR2
 avance(800, 483)  # AVANCE HACIA ADELANTE ANTES DE LA DIAGONAL
 
 left_motor.run_angle(800, 277, then=Stop.BRAKE, wait=True)# PRIMER ANGULO PARA LA DIAGONAL
-avance(800, -457)  # DIAGONAL
+avance(800, -403)  # DIAGONAL
 left_motor.run_angle(800, -277, then=Stop.BRAKE, wait=True)# ACOMODAMIENTO LUEGO DE LA DIAGONAL
-# avance(800, -40)
+avance(800, -50)
 
 ir_color3()  # LEER COLOR3
 
-avance(800, -150)  # DEZPLAZAMIENTO CORTO PARA IR A COLOR4
+avance(800, -170)  # DEZPLAZAMIENTO CORTO PARA IR A COLOR4
 
 ir_color4()  # LEER COLOR4
 
 escotilla_fija()
 
+avance(800, -370)# RETROCEDER HACIA LA LINEA 
+robot.turn(-95)
+robot.stop()
+wait(500)
+seguir_linea(800)
+seguir_linea3()
+robot.stop()
 
-left_motor.run_angle(800, 600, then=Stop.BRAKE, wait=True)
+
+left_motor.run_angle(800, 700, then=Stop.BRAKE, wait=True) #Giro hacia carga útil
 wait(200)
-avance(800, -150)
-bajar_garra(1250)
-avance(800, 800)
-right_motor.run_angle(800, -260, then=Stop.BRAKE, wait=False)
+avance(800, -115)#Retroceso para mejor agarre
+bajar_garra(1320)
+avance(800, 800)#Avnce vertical para ia a dejar la garra
+right_motor.run_angle(800, -245, then=Stop.BRAKE, wait=False) #Giro para quedar recta a la garra
 left_motor.run_angle(800, 245, then=Stop.BRAKE, wait=True)
-avance(800, 1250)
-
+avance(800, 1150) #Avance rumbo al punto de carga útil
 color_rotor()
+
 subir_garra(-1250)
 
-#banderas()
+
+colorx = None
+color1 = Color.BLUE
+color2 = Color.RED
+color3 = Color.GREEN
+color4 = Color.YELLOW
+
+
+def tornillos():
+    rotar_garra(1)
+    subir_garra(-1300)
+    avance(800, -130)
+    bajar_garra(1300)
+    rotar_garra(2)
+    subir_garra(-1300)
+    avance(800, 152)
+    avance(800,-22)
+    bajar_garra(1300)
+    rotar_garra(-2)
+    
+    
+    
+tornillos() 
+
+
+
