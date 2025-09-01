@@ -69,18 +69,7 @@ def seguir_linea(DISTANCIA):
 def seguir_linea2():
     robot.reset()
 
-    while not line_sensor2.reflection() < 21.5:
-        deviation = line_sensor2.reflection() - line_sensor.reflection()
-        turn_rate = PROPORTIONAL_GAIN * deviation
-        robot.drive(DRIVE_SPEED, turn_rate)
-
-    robot.stop(Stop.HOLD)
-    wait(200)
-    
-def seguir_linea2_5():
-    robot.reset()
-
-    while not line_sensor.reflection() < 20:
+    while not line_sensor2.reflection() < 20:
         deviation = line_sensor2.reflection() - line_sensor.reflection()
         turn_rate = PROPORTIONAL_GAIN * deviation
         robot.drive(DRIVE_SPEED, turn_rate)
@@ -93,18 +82,6 @@ def seguir_linea3():
     robot.reset()
 
     while not 30 < line_sensor2.reflection() < 40:
-        deviation = line_sensor2.reflection() - line_sensor.reflection()
-        turn_rate = PROPORTIONAL_GAIN * deviation
-        robot.drive(DRIVE_SPEED, turn_rate)
-        
-    robot.stop(Stop.HOLD)
-    wait(200)
-    
-    
-def seguir_linea4():
-    robot.reset()
-
-    while not 20 < line_sensor2.reflection() < 35 and 20 < line_sensor2.reflection() < 35:
         deviation = line_sensor2.reflection() - line_sensor.reflection()
         turn_rate = PROPORTIONAL_GAIN * deviation
         robot.drive(DRIVE_SPEED, turn_rate)
@@ -170,7 +147,7 @@ def bajar_garra(GRADO):
                                                                      """
 # Colores
 
-colorx = Color.GREEN
+colorx = None
 color1 = None
 color2 = None
 color3 = None
@@ -197,8 +174,266 @@ def ir_colorx():
         ev3.speaker.beep()
 
 
+def ir_color1():
+    global color1
+    if colorsensor_right.color() in valid_colors:
+        wait(500)
+        color1 = colorsensor_right.color()
+
+        if color1 == Color.RED:
+            ev3.speaker.say("Red")
+        if color1 == Color.BLUE:
+            ev3.speaker.say("Blue")
+        if color1 == Color.GREEN:
+            ev3.speaker.say("Green")
+        if color1 == Color.YELLOW:
+            ev3.speaker.say("Yellow")
+    else:
+        ev3.speaker.beep()
+
+
+def ir_color2():
+    global color2
+    if colorsensor_right.color() in valid_colors and colorsensor_right.color() != color1:
+        wait(500)
+        color2 = colorsensor_right.color()
+
+        if color2 == Color.RED:
+            ev3.speaker.say("Red")
+        if color2 == Color.BLUE:
+            ev3.speaker.say("Blue")
+        if color2 == Color.GREEN:
+            ev3.speaker.say("Green")
+        if color2 == Color.YELLOW:
+            ev3.speaker.say("Yellow")
+    else:
+        ev3.speaker.beep()
+
+
+def ir_color3():
+    global color3
+    if colorsensor_left.color() in valid_colors and colorsensor_left.color() not in [color1, color2]:
+        wait(500)
+        color3 = colorsensor_left.color()
+
+        if color3 == Color.RED:
+            ev3.speaker.say("Red")
+        if color3 == Color.BLUE:
+            ev3.speaker.say("Blue")
+        if color3 == Color.GREEN:
+            ev3.speaker.say("Green")
+        if color3 == Color.YELLOW:
+            ev3.speaker.say("Yellow")
+    else:
+        ev3.speaker.beep()
+
+
+def ir_color4():
+    global color4
+    if colorsensor_left.color() in valid_colors and colorsensor_left.color() not in [color1, color2, color3]:
+        wait(500)
+        color4 = colorsensor_left.color()
+
+        if color4 == Color.RED:
+            ev3.speaker.say("Red")
+        if color4 == Color.BLUE:
+            ev3.speaker.say("Blue")
+        if color4 == Color.GREEN:
+            ev3.speaker.say("Green")
+        if color4 == Color.YELLOW:
+            ev3.speaker.say("Yellow")
+    else:
+        ev3.speaker.beep()
         
-  
+        
+        
+        
+
+"""
+░██████████                               ░██░██ ░██                       
+    ░██                                      ░██ ░██                       
+    ░██     ░███████  ░██░████ ░████████  ░██░██ ░██  ░███████   ░███████  
+    ░██    ░██    ░██ ░███     ░██    ░██ ░██░██ ░██ ░██    ░██ ░██        
+    ░██    ░██    ░██ ░██      ░██    ░██ ░██░██ ░██ ░██    ░██  ░███████  
+    ░██    ░██    ░██ ░██      ░██    ░██ ░██░██ ░██ ░██    ░██        ░██ 
+    ░██     ░███████  ░██      ░██    ░██ ░██░██ ░██  ░███████   ░███████  
+                                                                    
+
+
+def mezclar():
+    avance(800,-172)
+    bajar_garra(415)
+    rotar_garra(2)
+    subir_garra(-415)
+    avance(600,300)
+    avance(600, -50)
+    bajar_garra(415)
+    
+    
+forma1  = [Color.BLUE, Color.GREEN, Color.YELLOW, Color.RED]#
+forma2  = [Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW]#
+forma3  = [Color.BLUE, Color.YELLOW, Color.GREEN, Color.RED]#
+forma4  = [Color.BLUE, Color.YELLOW, Color.RED, Color.GREEN]#
+forma5  = [Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW]
+forma6  = [Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN]
+forma7  = [Color.GREEN, Color.BLUE, Color.YELLOW, Color.RED]
+forma8  = [Color.GREEN, Color.BLUE, Color.RED, Color.YELLOW]
+forma9  = [Color.GREEN, Color.YELLOW, Color.BLUE, Color.RED]
+forma10 = [Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE]
+forma11 = [Color.GREEN, Color.RED, Color.BLUE, Color.YELLOW]
+forma12 = [Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE]
+forma13 = [Color.YELLOW, Color.BLUE, Color.GREEN, Color.RED]
+forma14 = [Color.YELLOW, Color.BLUE, Color.RED, Color.GREEN]
+forma15 = [Color.YELLOW, Color.GREEN, Color.BLUE, Color.RED]
+forma16 = [Color.YELLOW, Color.GREEN, Color.RED, Color.BLUE]
+forma17 = [Color.YELLOW, Color.RED, Color.BLUE, Color.GREEN]
+forma18 = [Color.YELLOW, Color.RED, Color.GREEN, Color.BLUE]
+forma19 = [Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW]
+forma20 = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN]
+forma21 = [Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW]
+forma22 = [Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE]
+forma23 = [Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN]
+forma24 = [Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE]
+Lista de colores 7,7 140     14,2     37.25   48.01     antihoraria 
+colores_tornillo = [color1,color2,color3,color4]
+def organizar():
+    if forma1 == colores_tornillo: #forma1  = [Color.BLUE, Color.GREEN, Color.YELLOW, Color.RED]
+        bajar_garra(415)
+        rotar_garra(1)
+        subir_garra(-415)
+        mezclar()
+        rotar_garra(2)
+
+    if forma2 == colores_tornillo: #forma2  = [Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW]
+        bajar_garra(415)
+        rotar_garra(1)
+        subir_garra(-415)
+        mezclar()
+        rotar_garra(2)
+        mezclar() 
+    
+    if forma3 == colores_tornillo: #forma3  = [Color.BLUE, Color.YELLOW, Color.GREEN, Color.RED]
+        bajar_garra(415)
+        rotar_garra(2)
+        mezclar()
+
+    if forma4 == colores_tornillo: #forma4  = [Color.BLUE, Color.YELLOW, Color.RED, Color.GREEN]
+        bajar_garra(415)
+        rotar_garra(2)
+
+    if forma5 == colores_tornillo: #forma5  = [Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW]
+        bajar_garra(415)
+        mezclar()
+        rotar_garra(1)
+
+    if forma6 == colores_tornillo: #forma6  = [Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN]
+        bajar_garra(415)
+        rotar_garra(-1)
+        mezclar()
+        rotar_garra(-1)
+    
+    if forma7 == colores_tornillo: #forma7  = [Color.GREEN, Color.BLUE, Color.YELLOW, Color.RED]
+        bajar_garra(415)
+        rotar_garra(-1)
+
+    if forma8 == colores_tornillo: #forma8  = [Color.GREEN, Color.BLUE, Color.RED, Color.YELLOW]
+        bajar_garra(415)
+        rotar_garra(-1)
+        mezclar()
+
+    if forma9 == colores_tornillo: #forma9  = [Color.GREEN, Color.YELLOW, Color.BLUE, Color.RED]
+        bajar_garra(415)
+        mezclar()
+        rotar_garra(-1)
+
+    if forma10 == colores_tornillo: #forma10 = [Color.GREEN, Color.YELLOW, Color.RED, Color.BLUE]
+        bajar_garra(415)
+        mezclar()
+        rotar_garra(-1)
+        mezclar()
+
+    if forma11 == colores_tornillo: #forma11 = [Color.GREEN, Color.RED, Color.BLUE, Color.YELLOW]
+        bajar_garra(415)
+        rotar_garra(2)
+        mezclar()
+        rotar_garra(2)
+
+    if forma12 == colores_tornillo: #forma12 = [Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE]
+        bajar_garra(415)
+        rotar_garra(-2)
+        mezclar()
+        rotar_garra(2)
+     
+    if forma13 == colores_tornillo: #forma13 = [Color.YELLOW, Color.BLUE, Color.GREEN, Color.RED]
+        bajar_garra(415)
+        mezclar()
+        rotar_garra(2)
+        mezclar()
+
+    if forma14 == colores_tornillo: #forma14 = [Color.YELLOW, Color.BLUE, Color.RED, Color.GREEN] 
+        bajar_garra(415)
+        mezclar()
+        rotar_garra(2)
+
+    if forma15 == colores_tornillo: #forma15 = [Color.YELLOW, Color.GREEN, Color.BLUE, Color.RED]
+        bajar_garra(415)
+        mezclar()
+        rotar_garra(1)
+        mezclar()
+        rotar_garra(2)
+
+    if forma16 == colores_tornillo: #forma16 = [Color.YELLOW, Color.GREEN, Color.RED, Color.BLUE]
+        bajar_garra(415)
+        mezclar()
+        rotar_garra(1)
+        mezclar()
+        rotar_garra(2)
+        mezclar()
+
+    if forma17 == colores_tornillo: #forma17 = [Color.YELLOW, Color.RED, Color.BLUE, Color.GREEN]
+        bajar_garra(415)
+        rotar_garra(1)
+        mezclar()
+ 
+    if forma18 == colores_tornillo: #forma18 = [Color.YELLOW, Color.RED, Color.GREEN, Color.BLUE]
+        bajar_garra(415)
+        rotar_garra(1)
+ 
+    if forma19 == colores_tornillo: #forma19 = [Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW]
+        bajar_garra(415)
+        rotar_garra(1)
+        mezclar()
+        rotar_garra(-1)
+
+    if forma20 == colores_tornillo: #forma20 = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN]
+        bajar_garra(415)
+        rotar_garra(1)
+        mezclar()
+        rotar_garra(-1)
+        mezclar()
+
+    if forma21 == colores_tornillo:  #forma21 = [Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW]
+        bajar_garra(415)
+
+    if forma22 == colores_tornillo: #forma22 = [Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE]
+        bajar_garra(415)
+        mezclar()
+
+    if forma23 == colores_tornillo: #forma23 = [Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN] 
+        mezclar()
+        rotar_garra(1)
+        mezclar()
+        rotar_garra(-1)
+        mezclar()
+
+    if forma24 == colores_tornillo: #forma24 = [Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE]    
+        bajar_garra(415)
+        mezclar()
+        rotar_garra(1)
+        mezclar()
+        rotar_garra(-1)
+        
+  """     
 """
 ███████ ███████  ██████    ███████ ██      ██  █████  
 ██      ██      ██         ██      ██      ██ ██   ██ 
@@ -207,16 +442,23 @@ def ir_colorx():
 ███████ ███████  ██████ ██ ██      ██  █████  ██   ██ 
                                                       
 """
+
+
 def escotilla_fija():
-    avance(800, 400)
-    left_motor.run_angle(800,-260, then=Stop.BRAKE, wait=False)
-    right_motor.run_angle(800,260, then=Stop.BRAKE, wait=True)
-    avance(800,630)
-    right_motor.run_angle(800,580, then=Stop.BRAKE, wait=True)
-    avance(800,360)
-    bajar_garra(410)
-    avance(800,-300)
-    subir_garra(-415)      
+    avance(800, 870)  # AVANZA HACIA AADELANTE LUEGO DE LEER COLOR4
+    # GIRO 90 GRADOS PARA QUEDAR ADYACENTE A LA ESCOTILLA
+    right_motor.run_angle(800, 320, then=Stop.BRAKE, wait=False)
+    # GIRO 90 GRADOS PARA QUEDAR ADYACENTE A LA ESCOTILLA
+    left_motor.run_angle(800, -260, then=Stop.BRAKE, wait=True)
+    avance(800, 360)  # AVANCE EN X
+    # GIRO PAR AQUDAR DE FRENTE A LA ESCOTILLA
+    right_motor.run_angle(800, 320, then=Stop.BRAKE, wait=False)
+    # GIRO PAR AQUDAR DE FRENTE A LA ESCOTILLA
+    left_motor.run_angle(800, -260, then=Stop.BRAKE, wait=True)
+    bajar_garra(415)
+    avance(800, -280)  # SACAR ESCOTILLA
+    subir_garra(-415)
+
 
 """
 
@@ -228,6 +470,8 @@ def escotilla_fija():
                                                                                                                              
                                                                                                                              
 """
+
+
 def color_rotor():
     if colorx == Color.BLUE:
         rotar_garra(0)
@@ -255,14 +499,14 @@ def color_rotor():
 def bandera():
     avance(800,-800)
     right_motor.run_angle(600,580, then=Stop.HOLD, wait=True)
-    avance(800,-116.5)
-    bajar_garra(385)
-    subir_garra(-385)
+    avance(800,-150)
+    bajar_garra(410)
+    subir_garra(-410)
     left_motor.run_angle(600,580, then=Stop.HOLD, wait=True)
     right_motor.run_angle(600,580, then=Stop.HOLD , wait=True)
     avance(800,-137)
     bajar_garra(310)
-    avance(600,-130)
+    avance(600,-180)
     subir_garra(-310)
     
 
@@ -275,59 +519,65 @@ def bandera():
 ███████  █████  ███████  ██████  ██████   ██████ ██  ██████  ██   ████ 
                                                                        
                                                                        """
-def artemisa():
-    seguir_linea(600)
-    seguir_linea2()
-    wait(100)
-    robot.stop()
-    avance(800, -157)
-    wait(200)
-    right_motor.run_angle(800, -315, then=Stop.BRAKE,wait=False)  # GIRO HACIA COLORX
-    left_motor.run_angle(800, 265, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLORX
-    wait(500)
-    avance(800, -656.5)  # REVERSA HACIA COLORX
 
-    ir_colorx()  # LEER COLORX (MUESTRAS PARA LA CARGA ÚTIL)
+seguir_linea(600)
+seguir_linea2()
+wait(100)
+robot.stop()
+avance(800, -180)
+wait(200)
+right_motor.run_angle(800, -315, then=Stop.BRAKE,wait=False)  # GIRO HACIA COLORX
+left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLORX
+wait(500)
+avance(800, -656.5)  # REVERSA HACIA COLORX
 
-    escotilla_fija()
+ir_colorx()  # LEER COLORX (MUESTRAS PARA LA CARGA ÚTIL)
 
-    avance(800, -510)# RETROCEDER HACIA LA LINEA 
-    robot.turn(-92) #Giro para quedar al sentido de la linea
-    robot.stop()
-    wait(500)
+avance(800, -25)  # AVANCE PARA EVITAR CHOQUE CON LA ESCOTILLA AMARILLA
+right_motor.run_angle(800, -272, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLOR1
+left_motor.run_angle(800, -272, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLOR1
+avance(800, -415)  # AVANCE HACIA COLOR1
+
+ir_color1()  # LEER COLOR1
+
+avance(800, -135)  # DEZPLAZAMIENTO CORTO HACIA COLOR2
+
+ir_color2()  # LEER COLOR2
+
+avance(800, 483)  # AVANCE HACIA ADELANTE ANTES DE LA DIAGONAL
+
+left_motor.run_angle(800, 277, then=Stop.BRAKE, wait=True)# PRIMER ANGULO PARA LA DIAGONAL
+avance(800, -405)  # DIAGONAL
+left_motor.run_angle(800, -277, then=Stop.BRAKE, wait=True)# ACOMODAMIENTO LUEGO DE LA DIAGONAL
+avance(800, -80)
+
+ir_color3()  # LEER COLOR3
+
+avance(800, -170)  # DEZPLAZAMIENTO CORTO PARA IR A COLOR4
+
+ir_color4()  # LEER COLOR4
+
+escotilla_fija()
+
+avance(800, -340)# RETROCEDER HACIA LA LINEA 
+robot.turn(-92) #Giro para quedar al sentido de la linea
+robot.stop()
+wait(500)
+seguir_linea(850)
+seguir_linea3() #Parar en la franja azul
+robot.straight(205) #acomodarse en el cuadrito de inicio
+robot.stop()
+right_motor.run_angle(800, -320, then=Stop.BRAKE,wait=False)  # GIRO HACIA COLORX
+left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLORX
+avance(800, 150)#avance para mejor agarre
+bajar_garra(400)
+avance(800, 835)#Avnce vertical para ir a dejar la carga
+robot.turn(90)
+robot.stop()
+avance(800, 1210) #Avance rumbo al punto de carga útil
+color_rotor()       
+
+subir_garra(-415)
 
 
-    seguir_linea(830)
-    seguir_linea3() #Parar en la franja azul
-    robot.straight(205) #acomodarse en el cuadrito de inicio
-    robot.stop()
-    right_motor.run_angle(800, -320, then=Stop.BRAKE,wait=False)  # GIRO HACIA COLORX
-    left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)  # GIRO HACIA COLORX
-    avance(800, 150) #avance para mejor agarre
-    bajar_garra(388)
-    avance(800, 645) #Avance vertical para ir a dejar la carga
-    left_motor.run_angle(800, 585)
-    avance(800, 990) #Avance rumbo al punto de carga útil
-    color_rotor()       
-    subir_garra(-415)
-
-    bandera()
-    avance(800, -120)
-    right_motor.run_angle(800, 585)
-    avance(800, 165)
-    seguir_linea2_5()
-    robot.stop()
-    avance(800, 135)
-    robot.turn(88)
-    robot.stop()
-    avance(800,210)
-    bajar_garra(415)
-    
-while True:
-    pressed = ev3.buttons.pressed()
-    if Button.DOWN in pressed:
-        artemisa()
-while False:
-    pressed = ev3.buttons.pressed()
-    if Button.DOWN in pressed:
-        robot.stop()
+bandera()
