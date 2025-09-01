@@ -253,7 +253,7 @@ def color_rotor():
                                                                                         """
 
 def bandera():
-    avance(800,-800)
+    avance(800,-820)
     right_motor.run_angle(600,580, then=Stop.HOLD, wait=True)
     avance(800,-116.5)
     bajar_garra(385)
@@ -307,9 +307,11 @@ def artemisa():
     bajar_garra(388)
     avance(800, 645) #Avance vertical para ir a dejar la carga
     left_motor.run_angle(800, 585)
-    avance(800, 990) #Avance rumbo al punto de carga útil
+    avance(800, 900) #Avance rumbo al punto de carga útil
     color_rotor()       
     subir_garra(-415)
+    avance(800, 100)
+    
 
     bandera()
     avance(800, -120)
@@ -327,7 +329,3 @@ while True:
     pressed = ev3.buttons.pressed()
     if Button.DOWN in pressed:
         artemisa()
-while False:
-    pressed = ev3.buttons.pressed()
-    if Button.DOWN in pressed:
-        robot.stop()
