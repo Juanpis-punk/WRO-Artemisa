@@ -125,12 +125,12 @@ def seguir_linea4():
     robot.stop(Stop.HOLD)
     wait(200)
     
-def seguir_linea_minus_4():
+def seguir_linea_minus_4(velocidad):
     robot.reset()
-    #seguir hasta ver negro pero pa tras
+        #seguir hasta ver negro pero pa tras
     while not line_sensor.reflection() < 17:
-        left_motor.run(-700)   # velocidad en grados por segundo
-        right_motor.run(-700)
+        left_motor.run(velocidad)   # velocidad en grados por segundo
+        right_motor.run(velocidad)
         
     robot.stop(Stop.BRAKE)
     wait(200)
@@ -203,6 +203,12 @@ def seguir_linea6():
 def avance(velocidad, grados):
     right_motor.run_angle(velocidad, grados, then=Stop.HOLD, wait=False)
     left_motor.run_angle(velocidad, grados, then=Stop.HOLD, wait=True)
+    
+    
+def avance_ciego(velocidad):
+    right_motor.run(velocidad)
+    left_motor.run(velocidad)
+    
 
 """ 
     ░██████                                          
@@ -221,9 +227,6 @@ def avance(velocidad, grados):
 def rotar_garra(TIMES):
     rotar.run_angle(300, TIMES*-150, then=Stop.HOLD, wait=True)
     
-def rotar_garra_x(TIMES):
-    rotar.run_angle(300, TIMES*-170, then=Stop.HOLD, wait=True)
-    
 
 
 def subir_garra(GRADO):
@@ -235,6 +238,8 @@ def bajar_garra(GRADO):
 
 def subir_garra2(GRADO):
     claw.run_angle(160, GRADO, then=Stop.HOLD, wait=True)
+    
+
     
 
 
@@ -301,13 +306,14 @@ def escotilla_fija():
     avance(800, 403) #Avance hacia adelante luego de leer colorx
     left_motor.run_angle(800,-260, then=Stop.BRAKE, wait=False)#GIro a la derecha
     right_motor.run_angle(800,317, then=Stop.BRAKE, wait=True)
-    avance(800,630) #Avance en X
+    avance(800,631) #Avance en X
     right_motor.run_angle(800,580, then=Stop.BRAKE, wait=True) #Giro
     avance(800,270)#Avance recto hacia escotilla roja
     bajar_garra(390)
     avance(800,-250) #Retroceso para halar
     subir_garra(-390)
-    rotar_garra_x(1) #reacomodar garra
+    wait(500)
+    rotar_garra(1) #reacomodar garra
      
 
 
@@ -330,13 +336,13 @@ def morros():
     left_motor.run_angle(400,-580,then=Stop.BRAKE, wait=True)
     avance(800,1190)
     left_motor.run_angle(400,890 ,then=Stop.BRAKE, wait=True)
-    avance(800,-70)
+    avance(800,-100)
     subir_garra(-407)
     avance(600,-200)  
     bajar_garra(406)   
     avance(400, -50)   
     right_motor.run_angle(400,550,then=Stop.BRAKE, wait=True)
-    avance(800,-115)  
+    avance(800,-140)  
     subir_garra2(-407)
 
 """
@@ -360,6 +366,12 @@ def color_rotor():
         rotar_garra(2)
     elif colorx == Color.GREEN:
         rotar_garra(1)
+        
+def arreglar_garra():
+    if colorx == Color.GREEN:
+        rotar_garra(1)
+    if colorx == Color.RED:
+        rotar_garra(1)
 
     """
     
@@ -376,14 +388,14 @@ def color_rotor():
                                                                                         """
 
 def bandera():
-    avance(800,-740) #Salida de carga útil
-    right_motor.run_angle(600,590, then=Stop.HOLD, wait=True) #Giro para quedar de frente a bandera 1
-    avance(800,-73)
+    avance(800,-800) #Salida de carga útil
+    right_motor.run_angle(600,580, then=Stop.HOLD, wait=True) #Giro para quedar de frente a bandera 1
+    avance(800,-80)
     bajar_garra(385) #Bajar banderita
     subir_garra(-385)
     left_motor.run_angle(600,580, then=Stop.HOLD, wait=True)#Giro para quedar en X
     right_motor.run_angle(600,580, then=Stop.HOLD , wait=True)#Quedar frente a banderita 2
-    avance(800,-85) #Retroceso para precisión
+    avance(800,-60) #Retroceso para precisión
     bajar_garra(310)
     avance(600,-220) # Hala palanquita
     subir_garra(-310)
@@ -402,7 +414,7 @@ def bandera():
             ░███                                                                     """
             
             
- 
+
 while True:
     pressed = ev3.buttons.pressed()
     if Button.DOWN in pressed:
@@ -411,7 +423,7 @@ while True:
         seguir_linea2()
         wait(100)
         robot.stop()
-        avance(800, -150) #Retroceso para ir a colorx
+        avance(800, -149) #Retroceso para ir a colorx
         
         wait(200)
         
@@ -439,42 +451,43 @@ while True:
         left_motor.run_angle(800, 260, then=Stop.BRAKE, wait=True)  
         avance(800, 150) #avance para mejor agarre
         
-        bajar_garra(395)
+        bajar_garra(394) #Cargautil
         color_rotor() 
         avance(600, 550) #avance para llegar a la línea
         seguir_linea4()#Chocar con la línea
-        wait(300)
-        robot.turn(90)#Giro para quedar en x
         robot.stop()
-        avance(800, -400) #Choque a la pared
-        avance(400, 1300) #Ir a dejar carga util
-        wait(100)
-        subir_garra2(-395)
+        wait(300)
+        avance(800, -40)
+        robot.turn(89.2)#Giro para quedar en x
+        robot.stop()
+        subir_garra2(-394)
+        avance(500, 1302)
         wait(200)
         bandera()
-        
-        seguir_linea_minus_4() #Retroceder a línea
-        avance(800, -250)
+
+        seguir_linea_minus_4(-550) #Retroceder a línea
         robot.stop()
-        avance(800, 406) #Verticl a escotilla amarilla
-        robot.turn(-85) #Giro a escotilla
+        avance(800,350) #Verticl a escotilla amarilla
+        robot.turn(-85) #Giro a escotilla para quedar en X
         robot.stop()
-        avance(800, -300)
-        left_motor.run_angle(800, -80, then=Stop.HOLD, wait=True)
-        left_motor.run_angle(800, 80, then=Stop.HOLD, wait=True)
-        seguir_linea_minus_4() #Chocar con adyacente negra
+        avance(400, -750) #Empujar escotilla
+        left_motor.run_angle(800, -300, then=Stop.HOLD, wait=True)
+        left_motor.run_angle(800, 300, then=Stop.HOLD, wait=True)
+        seguir_linea_minus_4(-400) #Chocar con adyacente negra
         robot.stop()
-        left_motor.run_angle(800, -580, then=Stop.BRAKE, wait=True) #Giro hacia linea principal
+        left_motor.run_angle(600, -580, then=Stop.BRAKE, wait=True) #Giro hacia linea principal
         seguir_linea4() #Chocar con linea principal
         robot.stop()
         avance(800, 115) #Acomodacion para el angulo
-        robot.turn(-80) #Angulo para quedar en sentido de linea a morros
+        robot.turn(-78) #Angulo para quedar en sentido de linea a morros
         robot.stop()
-        seguir_linea2() #CHocar con segunda adyacente
+        DRIVE_SPEED = 200
+        seguir_linea2() #Chocar con segunda adyacente
         robot.stop()    
-    
-        avance(800, 400)#Avance a morros
-        ev3.speaker.say("Hopa")
+        seguir_linea(168)#Avance a morros
+        arreglar_garra()
         morros()
- 
+
+
+
 
