@@ -106,7 +106,7 @@ def seguir_linea2_5():
 def seguir_linea3():
     robot.reset()
     #para parar con la franja azul
-    while not 30 < line_sensor2.reflection() < 40:
+    while not 20 < line_sensor2.reflection() < 30:
         deviation = line_sensor2.reflection() - line_sensor.reflection()
         turn_rate = PROPORTIONAL_GAIN * deviation
         robot.drive(DRIVE_SPEED, turn_rate)
@@ -388,9 +388,9 @@ def arreglar_garra():
                                                                                         """
 
 def bandera():
-    avance(800,-800) #Salida de carga útil
+    avance(800,-855) #Salida de carga útil
     right_motor.run_angle(600,580, then=Stop.HOLD, wait=True) #Giro para quedar de frente a bandera 1
-    avance(800,-80)
+    avance(800,-25)
     bajar_garra(385) #Bajar banderita
     subir_garra(-385)
     left_motor.run_angle(600,580, then=Stop.HOLD, wait=True)#Giro para quedar en X
@@ -465,12 +465,12 @@ while True:
         wait(200)
         bandera()
 
-        seguir_linea_minus_4(-550) #Retroceder a línea
+        seguir_linea_minus_4(-550) #Retroceder a línea y chocar
         robot.stop()
-        avance(800,350) #Verticl a escotilla amarilla
+        avance(800,350) #Vertical a escotilla amarilla Y
         robot.turn(-85) #Giro a escotilla para quedar en X
         robot.stop()
-        avance(400, -750) #Empujar escotilla
+        avance(400, -775) #Empujar escotilla
         left_motor.run_angle(800, -300, then=Stop.HOLD, wait=True)
         left_motor.run_angle(800, 300, then=Stop.HOLD, wait=True)
         seguir_linea_minus_4(-400) #Chocar con adyacente negra
@@ -484,9 +484,26 @@ while True:
         DRIVE_SPEED = 200
         seguir_linea2() #Chocar con segunda adyacente
         robot.stop()    
-        seguir_linea(168)#Avance a morros
+        seguir_linea(160)#Avance a morros
         arreglar_garra()
         morros()
+        avance(800, -545) #Retroceso a misión especial
+        left_motor.run_angle(800, 200, then=Stop.HOLD, wait = True)#Giro para buscar línea
+        seguir_linea_minus_4() #Choque con linea
+        robot.turn(90)#Giro a la izquierda para alinearse con linea principal
+        seguir_linea2()#Seguimos linea y chocamos con adyacente
+        robot.turn(-90)#Giro para alinearse con adyacente
+        seguir_linea(363) #Seguimos adyacente
+        robot.stop(Stop.HOLD)  
+        robot.turn(90)#Giro a la izquierda para quedar frente a bloque de marcado
+        avance(800, -80)#retroceso para precisión
+        bajar_garra(410)  
+        avance(800,500)  #Retroceso mayor para Ir a dejar el bloquesito 
+        robot.turn(-90) #giro a la derecha para quedar frente a zona de destino
+        avance(800,500) #Avanzamos a zona de destino
+        subir_garra(415) #Soltamos bloquesito
+        
+        
 
 
 
