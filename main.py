@@ -205,9 +205,10 @@ def avance(velocidad, grados):
     left_motor.run_angle(velocidad, grados, then=Stop.HOLD, wait=True)
     
     
-def avance_ciego(velocidad):
-    right_motor.run(velocidad)
-    left_motor.run(velocidad)
+def avance_mm(velocidad, milimetros):
+      right_motor.run_angle(velocidad, (milimetros*100)/46.9, then=Stop.HOLD, wait=False)
+      left_motor.run_angle(velocidad, (milimetros*100)/46.9, then=Stop.HOLD, wait=True) 
+       
     
 
 """ 
@@ -330,13 +331,13 @@ def escotilla_fija():
 """
 def morros():
     bajar_garra(407)
-    avance(400,40)
+    avance(400,-50)
     wait(200)
     avance(400, -100)
     left_motor.run_angle(400,-580,then=Stop.BRAKE, wait=True)
     avance(800,1190)
     left_motor.run_angle(400,890 ,then=Stop.BRAKE, wait=True)
-    avance(800,-100)
+    avance(800,-90)
     subir_garra(-407)
     avance(600,-200)  
     bajar_garra(406)   
@@ -388,17 +389,17 @@ def arreglar_garra():
                                                                                         """
 
 def bandera():
-    avance(800,-855) #Salida de carga útil
+    avance(800,-890) #Salida de carga útil
     right_motor.run_angle(600,580, then=Stop.HOLD, wait=True) #Giro para quedar de frente a bandera 1
-    avance(800,-25)
-    bajar_garra(385) #Bajar banderita
-    subir_garra(-385)
+    avance(800,-70)
+    bajar_garra(390) #Bajar banderita
+    subir_garra(-390)
     left_motor.run_angle(600,580, then=Stop.HOLD, wait=True)#Giro para quedar en X
     right_motor.run_angle(600,580, then=Stop.HOLD , wait=True)#Quedar frente a banderita 2
     avance(800,-60) #Retroceso para precisión
-    bajar_garra(310)
+    bajar_garra(330)
     avance(600,-220) # Hala palanquita
-    subir_garra(-310)
+    subir_garra(-330)
     
 
 
@@ -412,8 +413,104 @@ def bandera():
 ░██████████   ░██  ░███████   ░███████   ░█████░██  ░███████  ░██ ░███████  ░██    ░██ 
               ░██                                                                      
             ░███                                                                     """
+        
+  
+while True:
+    pressed = ev3.buttons.pressed()
+    if Button.DOWN in pressed:
+        wait(1000)
+        bajar_garra(394) #Cargautil
+        color_rotor() 
+        avance(600, 550) #avance para llegar a la línea
+        seguir_linea4() #Chocar con la línea
+        robot.stop()
+        wait(300)
+        robot.turn(89.2)#Giro para quedar en x
+        robot.stop()
+        subir_garra2(-394)
+        avance(500, 1280)
+        wait(200)
+        bandera()
+        seguir_linea_minus_4(-550) #Retroceder a línea y chocar
+        robot.stop()
+        avance(800, 90) #acomodarse pa el seguir linea
+        robot.turn(90)#GIro al sentido oriente de linea
+        robot.stop()
+        seguir_linea2() #Chocar adyacente
+        robot.stop()
+        avance(800, 350) #X hacia escotilla roja
+        robot.turn(-90) #Giro a escotilla roja
+        robot.stop()
+        bajar_garra(390)
+        avance(800,500) #Y a escotilla roja
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+"""
             
             
+            
+            
+            
+       
 
 while True:
     pressed = ev3.buttons.pressed()
@@ -456,12 +553,12 @@ while True:
         avance(600, 550) #avance para llegar a la línea
         seguir_linea4()#Chocar con la línea
         robot.stop()
+        avance(800, 40)
         wait(300)
-        avance(800, -40)
         robot.turn(89.2)#Giro para quedar en x
         robot.stop()
         subir_garra2(-394)
-        avance(500, 1302)
+        avance(500, 1280)
         wait(200)
         bandera()
 
@@ -487,24 +584,43 @@ while True:
         seguir_linea(160)#Avance a morros
         arreglar_garra()
         morros()
-        avance(800, -545) #Retroceso a misión especial
-        left_motor.run_angle(800, 200, then=Stop.HOLD, wait = True)#Giro para buscar línea
+        avance(800, -390) #Retroceso a misión especial
+        left_motor.run_angle(800, -300, then=Stop.HOLD, wait = True)#Giro para buscar línea
+        
         seguir_linea_minus_4() #Choque con linea
+        robot.stop()
+        
         robot.turn(90)#Giro a la izquierda para alinearse con linea principal
+        robot.stop()
+        
         seguir_linea2()#Seguimos linea y chocamos con adyacente
         robot.turn(-90)#Giro para alinearse con adyacente
+        robot.stop()
+        
         seguir_linea(363) #Seguimos adyacente
         robot.stop(Stop.HOLD)  
         robot.turn(90)#Giro a la izquierda para quedar frente a bloque de marcado
+        robot.stop()
+        
         avance(800, -80)#retroceso para precisión
         bajar_garra(410)  
         avance(800,500)  #Retroceso mayor para Ir a dejar el bloquesito 
         robot.turn(-90) #giro a la derecha para quedar frente a zona de destino
+        robot.stop()
+        
         avance(800,500) #Avanzamos a zona de destino
         subir_garra(415) #Soltamos bloquesito
-        
-        
+      
+avance_mm(800,300)      
+robot.stop(Stop.HOLD)  
 
 
+
+while True:
+    
+    ev3.speaker.play_notes(["A4/4","A4/4","A4/4","C/4", "C4/4", "G4/8", "G4/8", "D4/4", ""] tempo=130)
+    left_motor.run_angle(800, -12000, then=Stop.HOLD, wait=False)
+    right_motor.run_angle(800, 12000, then=Stop.HOLD, wait=True)
+"""
 
 
